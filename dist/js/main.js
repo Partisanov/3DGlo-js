@@ -1,1 +1,1 @@
-(()=>{"use strict";console.log("module one"),console.log("module t55wo")})();
+(()=>{"use strict";console.log("module one"),console.log("module two")})();
