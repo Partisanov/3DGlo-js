@@ -4,17 +4,17 @@ const modal = () => {
     const closeBtn = modal.querySelector('.popup-close');
     const popupContent = modal.querySelector('.popup-content');
     let idInterval;
-    let count = -50;
+    let count = -30;
 
     const animatePopup = () => {
         count++;
 
         idInterval = requestAnimationFrame(animatePopup);
-        if (count < 10) {
-            popupContent.style.top = `${count * 5}px`;
+        if (count < 4) {
+            popupContent.style.top = `${count * 20}px`;
         } else {
             cancelAnimationFrame(idInterval);
-            count = -50;
+            count = -30;
         }
     };
 
