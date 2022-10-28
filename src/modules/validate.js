@@ -5,20 +5,11 @@ const validate = () => {
     const calcDayInput = calcBlock.querySelector('.calc-day');
     const calcInputs = [calcSquareInput, calcCountInput, calcDayInput];
 
-    const nameInput1 = document.getElementById('form1-name');
-    const nameInput2 = document.getElementById('form2-name');
-    const nameInput3 = document.getElementById('form3-name');
-    const nameInputs = [nameInput1, nameInput2, nameInput3];
+    const nameInputs = document.querySelectorAll('.form-name');
 
-    const mailInput1 = document.getElementById('form1-email');
-    const mailInput2 = document.getElementById('form2-email');
-    const mailInput3 = document.getElementById('form3-email');
-    const mailInputs = [mailInput1, mailInput2, mailInput3];
+    const mailInputs = document.querySelectorAll('.form-email');
 
-    const telInput1 = document.getElementById('form1-phone');
-    const telInput2 = document.getElementById('form2-phone');
-    const telInput3 = document.getElementById('form3-phone');
-    const telInputs = [telInput1, telInput2, telInput3];
+    const telInputs = document.querySelectorAll('.form-phone');
 
     const capitalizeFirstLetter = (string) => {
         return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
@@ -44,16 +35,18 @@ const validate = () => {
                 .replace(/\s{2,}/g, ' ').replace(/\-{2,}/g, '-');
 
             nameList = e.target.value.match(/[а-яё\-]+/gi);
-            nameList.forEach(name => {
-                if (/\-+/.test(name)) {
-                    let res = [];
-                    let subNames = name.match(/[а-яё]+/gi);
-                    subNames.forEach(n => res.push(capitalizeFirstLetter(n)));
-                    result.push(res.join('-'));
-                } else {
-                    result.push(capitalizeFirstLetter(name));
-                }
-            });
+            if (nameList) {
+                nameList.forEach(name => {
+                    if (/\-+/.test(name)) {
+                        let res = [];
+                        let subNames = name.match(/[а-яё]+/gi);
+                        subNames.forEach(n => res.push(capitalizeFirstLetter(n)));
+                        result.push(res.join('-'));
+                    } else {
+                        result.push(capitalizeFirstLetter(name));
+                    }
+                });
+            }
 
             e.target.value = result.join(' ');
         });
