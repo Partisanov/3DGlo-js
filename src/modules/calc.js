@@ -1,3 +1,5 @@
+import { animate, debounce } from "./helpers";
+
 const calc = (price = 100) => {
     const calckBlock = document.querySelector('.calc-block');
     const calcType = document.querySelector('.calc-type');
@@ -5,41 +7,6 @@ const calc = (price = 100) => {
     const calcCount = document.querySelector('.calc-count');
     const calcDay = document.querySelector('.calc-day');
     const total = document.getElementById('total');
-
-
-    function debounce(func, timeout) {
-        return function (args) {
-            let previousCall = this.lastCall;
-            this.lastCall = Date.now();
-            if (previousCall && ((this.lastCall - previousCall) <= timeout)) {
-                clearTimeout(this.lastCallTimer);
-            }
-            this.lastCallTimer = setTimeout(() => func(args), timeout);
-        };
-    }
-
-    const animateNum = (id, start, end, duration) => {
-        const startNum = +start;
-        const endNum = +end;
-        const obj = document.getElementById(id);
-        let interval;
-        let current = startNum;
-        let step = Math.abs(Math.floor((endNum - startNum) / (duration / 1000)));
-        step = (startNum < endNum) ? step : -step;
-
-        interval = setInterval(() => {
-            current += step;
-            if ((current >= (endNum - step)) && (startNum < end)) {
-                current = endNum;
-            } else if ((current <= (endNum + step)) && (startNum > endNum)) {
-                current = endNum;
-            }
-            if (current === endNum) {
-                clearInterval(interval);
-            }
-            obj.innerHTML = current;
-        }, 100);
-    };
 
     const countCalc = () => {
         const calcTypeValue = +calcType.options[calcType.selectedIndex].value;
@@ -70,13 +37,25 @@ const calc = (price = 100) => {
     };
 
     calckBlock.addEventListener('input', debounce(() => {
-        const startNumber = total.textContent;
-        const endNumber = countCalc();
-        if (!endNumber) {
+        const startNum = +total.textContent;
+        const endNum = countCalc();
+        const increment = (startNum < endNum) ? 1 : -1;
+        const range = Math.abs(endNum - startNum);
+
+        if (!endNum) {
             return;
         }
-        if (startNumber !== endNumber) {
-            animateNum('total', startNumber, endNumber, 12000);
+        if (startNum !== endNum) {
+            animate({
+                duration: 7000,
+
+                timing(timeFraction) {
+                    return timeFraction;
+                },
+                draw(progress) {
+                    total.textContent = `${startNum + increment * Math.floor(progress * range)}`;
+                }
+            });
         }
     }, 1000));
 };

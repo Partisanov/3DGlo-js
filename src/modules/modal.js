@@ -1,27 +1,23 @@
+import { animate } from "./helpers";
+
 const modal = () => {
     const modal = document.querySelector('.popup');
     const buttons = document.querySelectorAll('.popup-btn');
     const popupContent = modal.querySelector('.popup-content');
-    let idInterval;
-    let count = -30;
-
-    const animatePopup = () => {
-        count++;
-
-        idInterval = requestAnimationFrame(animatePopup);
-        if (count < 4) {
-            popupContent.style.top = `${count * 20}px`;
-        } else {
-            cancelAnimationFrame(idInterval);
-            count = -30;
-        }
-    };
 
     buttons.forEach(btn => {
         btn.addEventListener('click', () => {
             modal.style.display = 'block';
             if (screen.width > 768) {
-                requestAnimationFrame(animatePopup);
+                animate({
+                    duration: 300,
+                    timing(timeFraction) {
+                        return timeFraction;
+                    },
+                    draw(progress) {
+                        popupContent.style.top = `${-75 + progress * 80}%`;
+                    }
+                });
             }
         });
     });
