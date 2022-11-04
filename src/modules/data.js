@@ -18,7 +18,8 @@ const data = (url) => {
         }).then(response => response.json());
     };
 
-    sendData(getData(url));
+    getData(url)
+        .then(data => sendData(data));
 
 };
 
