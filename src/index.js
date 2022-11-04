@@ -6,6 +6,8 @@ import validate from "./modules/validate";
 import tabs from "./modules/tabs";
 import slider from "./modules/slider";
 import calc from "./modules/calc";
+import data from "./modules/data";
+
 
 timer('11 november 2022');
 menu();
@@ -15,3 +17,4 @@ validate();
 tabs();
 slider('portfolio-content', 'portfolio-item', 'portfolio-dots', 'portfolio-item-active');
 calc();
+data('http://localhost:8080/db/db.json');
