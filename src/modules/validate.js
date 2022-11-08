@@ -11,6 +11,8 @@ const validate = () => {
 
     const telInputs = document.querySelectorAll('.form-phone');
 
+    const messInputs = document.querySelectorAll('.mess');
+
     const capitalizeFirstLetter = (string) => {
         return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
     };
@@ -60,7 +62,13 @@ const validate = () => {
 
     telInputs.forEach(input => {
         input.addEventListener('input', (e) => {
-            e.target.value = e.target.value.replace(/[^\d\(\)\-]/, "");
+            e.target.value = e.target.value.replace(/[^\d\(\)\-\+]/, "");
+        });
+    });
+
+    messInputs.forEach(input => {
+        input.addEventListener('input', (e) => {
+            e.target.value = e.target.value.replace(/[^а-яё\d \.\,\!\:\;\?\-\"\(\)]/i, "");
         });
     });
 };
