@@ -47,8 +47,8 @@ const timer = (deadline) => {
             clearInterval(idInterval);
         }
     };
-
-    idInterval = setInterval(updateClock, 1000);
+    updateClock();
+    idInterval = setInterval(updateClock, 500);
 
 };
 export default timer;

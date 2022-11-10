@@ -1,6 +1,10 @@
 const sendForm = ({ formId, someElement = [] }) => {
     const form = document.getElementById(formId);
     const preloader = document.createElement('div');
+    const statusBlock = document.createElement('h3');
+    const errorText = 'Ошибка...';
+    const successText = 'Спасибо! Наш менеджер с Вами свяжется!';
+
 
     preloader.classList.add('preloader');
     preloader.insertAdjacentHTML("beforeend", `
@@ -11,12 +15,14 @@ const sendForm = ({ formId, someElement = [] }) => {
 	        <div class="cssload-cube cssload-c3"></div>
         </div>
     `);
+    preloader.style.display = "none";
 
     const validate = (list) => {
         let success = true;
 
         return success;
     };
+    const clearStatusBlock = () => statusBlock.textContent = '';
 
     const sendData = (data) => {
         return fetch('https://jsonplaceholder.typicode.com/posts', {
@@ -29,15 +35,21 @@ const sendForm = ({ formId, someElement = [] }) => {
     };
 
     const submitForm = () => {
+        const totalValue = document.getElementById('total').textContent;
         const formElements = form.querySelectorAll('input');
         const formData = new FormData(form);
         const formBody = {};
 
-        form.append(preloader);
+        clearStatusBlock();
+        preloader.style.display = "block";
 
         formData.forEach((value, key) => {
             formBody[key] = value;
         });
+
+        if (totalValue !== '0') {
+            formBody.total = totalValue;
+        }
 
         someElement.forEach(elem => {
             const element = document.getElementById(elem.id);
@@ -53,6 +65,12 @@ const sendForm = ({ formId, someElement = [] }) => {
                 .then(data => {
                     preloader.style.display = "none";
                     formElements.forEach(input => input.value = '');
+                    statusBlock.textContent = successText;
+                    setTimeout(clearStatusBlock, 5000);
+                })
+                .catch(error => {
+                    statusBlock.textContent = errorText;
+                    setTimeout(clearStatusBlock, 5000);
                 });
         } else {
             alert('Данные не валидны!!!');
@@ -63,6 +81,9 @@ const sendForm = ({ formId, someElement = [] }) => {
         if (!form) {
             throw new Error('Верните форму на место, пожалуйста!');
         }
+        form.append(preloader);
+        form.append(statusBlock);
+
         form.addEventListener('submit', (event) => {
             event.preventDefault();
             submitForm();
