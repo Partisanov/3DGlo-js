@@ -47,7 +47,6 @@ const sendForm = ({ formId, someElement = [] }) => {
             if (value) {
                 formBody[key] = value;
             }
-
         });
 
         if (totalValue !== '0') {
