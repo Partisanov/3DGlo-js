@@ -44,7 +44,10 @@ const sendForm = ({ formId, someElement = [] }) => {
         preloader.style.display = "block";
 
         formData.forEach((value, key) => {
-            formBody[key] = value;
+            if (value) {
+                formBody[key] = value;
+            }
+
         });
 
         if (totalValue !== '0') {
